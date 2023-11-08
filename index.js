@@ -131,19 +131,20 @@ async function run() {
 
 
     // get revius 
-    app.get("/usersReviues" , async(req,res)=>{
-      const result = await userReviueCollection.find().toArray();
-      return res.send(result);
+  app.get("/reviues",async(req,res)=>{
+    const room = req.query.name;
+    const filter = { selectedValue: room };
+    const result = await userReviueCollection.find(filter).toArray();
+      return res.send(result)
+  })
+
+    app.get("/description" , async(req,res)=>{
+      
+      
+      const result = await userReviewCollection.find().toArray();
+      return res.send(result)
+      // console.log(room);
     })
-
-
-    // app.get("/description/:room" , async(req,res)=>{
-    //   const room = req.params.room;
-    //   const filter = { selectedValue: room };
-    //   const result = await userReviewCollection.find(filter).toArray();
-    //   return res.send(result)
-    //   console.log(room);
-    // })
 
     // conditional user can comment if book data then he or she can comment
     app.get("/bookingRoomsCount", async(req,res)=>{
