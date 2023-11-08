@@ -95,6 +95,7 @@ async function run() {
 
     app.get('/bookingRooms', async(req, res) => {
       const userEmail = req.query.email;
+      const filter = { selectedValue: userEmail };
       const result = await userBookerDCollerction.find().toArray();
        return res.send(result);
     });
@@ -114,8 +115,15 @@ async function run() {
     })
 
 
-    // Update Booking 
-    app.patch("/booking/:id" , async(req,res)=>{
+    // Update Booking
+    // at frist select a spasific id for update
+    app.get("/updateDate/:id" , async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id : new ObjectId(id)}
+      const result = await userBookerDCollerction.findOne(query)
+      res.send(result)
+    })
+    app.patch("/updateDate/:id" , async(req,res)=>{
       const updateBooking = req.body;
       console.log(updateBooking);
     })
