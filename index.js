@@ -94,9 +94,12 @@ async function run() {
     });
 
     app.get('/bookingRooms', async(req, res) => {
-      const userEmail = req.query.email;
-      const filter = { selectedValue: userEmail };
-      const result = await userBookerDCollerction.find().toArray();
+      // const userEmail = req.query.email;
+      const email = req.query.email;
+      const filter = { email: email };
+      const result = await userBookerDCollerction.find(filter).toArray();
+      
+      console.log(email);
        return res.send(result);
     });
     
