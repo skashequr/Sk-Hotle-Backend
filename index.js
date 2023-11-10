@@ -121,27 +121,7 @@ async function run() {
       res.send(result);
     });
 
-    // app.patch("/updateDate/:id", async (req, res) => {
-    //   try {
-    //     const id = req.params.id;
-    //     const query = { _id: new ObjectId(id) };
-    //     const option = { upsert: true };
-    //     const updateBooking = req.body;
-    //     console.log(id);
-    //     const updateDate = {
-    //       $set: {
-    //         startDate: updateBooking.startDate,
-    //         endDate: updateBooking.endDate,
-    //       },
-    //     };
-
-    //     const result = await userBookerDCollerction.updateOne(query, updateDate, option);
-    //     res.json(result);
-    //   } catch (error) {
-    //     console.error("Error updating date:", error);
-    //     res.status(500).json({ error: "Internal Server Error" });
-    //   }
-    // });
+  
 
     // Date update
 
@@ -183,6 +163,8 @@ async function run() {
       }
     });
 
+
+
     //users reviues
     app.post("/usersReviues", async (req, res) => {
       const reviues = req.body;
@@ -192,15 +174,17 @@ async function run() {
     });
 
     // get revius
+
     app.get("/reviues", async (req, res) => {
       const room = req.query.name;
       const filter = { selectedValue: room };
       const result = await userReviueCollection.find(filter).toArray();
+      console.log(room);
       return res.send(result);
     });
 
     app.get("/description", async (req, res) => {
-      const result = await userReviewCollection.find().toArray();
+      const result = await userReviueCollection.find().toArray();
       return res.send(result);
       // console.log(room);
     });
