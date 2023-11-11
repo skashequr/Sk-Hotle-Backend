@@ -49,20 +49,26 @@ async function run() {
 
     // Viue The Rooms Information
     app.get("/roomdInfo", async (req, res) => {
-      // console.log(req.query);
       const page = parseInt(req.query.page);
       const size = parseInt(req.query.size);
-      const sort = parseInt(req.query.sort);
-      console.log(sort);
+      const sort = req.query.sort; // Assuming sort is a string indicating sort order
+  
+      let sortParams = { pricePerNight: 1 }; // Default ascending sort
+  
+      if (sort === "desc") {
+          sortParams = { pricePerNight: -1 }; // Descending sort
+      }
+  
       const result = await hottleRoomCullection
-        .find()
-        .sort({pricePerNight:sort})
-        .skip(page * size)
-        .limit(size)
-        .toArray();
-        
+          .find()
+          .sort(sortParams)
+          .skip(page * size)
+          .limit(size)
+          .toArray();
+  
       return res.send(result);
-    });
+  });
+  
 
     //PAgginatio
     app.get("/roomCount", async (req, res) => {
