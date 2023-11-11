@@ -7,7 +7,7 @@ const port = process.env.PORT || 5000;
 const cors = require("cors");
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173","https://hottle-service.web.app",],
     credentials: true,
   })
 );
@@ -27,7 +27,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
     const hottleRoomCullection = client
       .db("hottleManagement")
       .collection("roomsInfo");
@@ -51,12 +51,15 @@ async function run() {
       // console.log(req.query);
       const page = parseInt(req.query.page);
       const size = parseInt(req.query.size);
+      const sort = parseInt(req.query.sort);
+      console.log(sort);
       const result = await hottleRoomCullection
         .find()
+        .sort({pricePerNight:sort})
         .skip(page * size)
         .limit(size)
         .toArray();
-
+        
       return res.send(result);
     });
 
@@ -195,7 +198,7 @@ async function run() {
       return res.send({ count });
     });
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
